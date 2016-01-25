@@ -1,5 +1,7 @@
 # core-serval
-Various configs and script for testing serval in core-network
+Various configs and script for testing serval in core-network.
+
+More information about adding serval to core-network can be found in the following blog article: http://otg-living.blogspot.de/2016/01/running-serval-in-core-network-simulator.html
 
 ## Installation
 Copy/merge the conf files from dotcore to your ~/.core directory. Copy over the serval.py file into your myservices folder, modify the init file to load the serval file or copy the version from this repo if you haven't got any other custom services installed. Edit /etc/core/core.conf to add the local plugin directory.
