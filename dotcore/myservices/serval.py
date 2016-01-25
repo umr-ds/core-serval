@@ -16,7 +16,7 @@ class ServalService(CoreService):
     # list of other services this service depends on
     _depends = ()
     # per-node directories
-    _dirs = ("/home/meshadmin/serval-conf/etc/serval","/home/meshadmin/serval-conf/var/log", "/home/meshadmin/serval-conf/var/log/serval", "/home/meshadmin/serval-conf/var/run/serval", "/home/meshadmin/serval-conf/var/cache/serval")
+    _dirs = ("/home/meshadmin/serval-conf/etc/serval","/home/meshadmin/serval-conf/var/log", "/home/meshadmin/serval-conf/var/log/serval", "/home/meshadmin/serval-conf/var/run/serval", "/home/meshadmin/serval-conf/var/cache/serval","/home/meshadmin/serval-conf/var/cache/serval/sqlite3tmp","/home/meshadmin/serval-conf/var/cache/serval/blob")
     # generated files (without a full path this file goes in the node's dir,
     #  e.g. /tmp/pycore.12345/n1.conf/)
     _configs = ('/home/meshadmin/serval-conf/etc/serval/serval.conf', "mesh-start.sh", )
