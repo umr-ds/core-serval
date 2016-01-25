@@ -1,8 +1,3 @@
-#
-# CORE
-# Copyright (c)2010-2012 the Boeing Company.
-# See the LICENSE file included in this distribution.
-#
 ''' serval service.
 '''
 
@@ -12,7 +7,7 @@ from core.service import CoreService, addservice
 from core.misc.ipaddr import IPv4Prefix, IPv6Prefix
 
 class ServalService(CoreService):
-    ''' This is a sample user-defined service. 
+    ''' servald as a service.
     '''
     # a unique name is required, without spaces
     _name = "ServalService"
@@ -54,25 +49,7 @@ class ServalService(CoreService):
 		cfg +="done\n"
 	else:
 		cfg = ""
-#        for ifc in node.netifs():
-#            cfg += 'echo "Node %s has interface %s"\n' % (node.name, ifc.name)
-#            # here we do something interesting 
-#            cfg += "\n".join(map(cls.subnetentry, ifc.addrlist))
-#            break
         return cfg
-
-    @staticmethod
-    def subnetentry(x):
-        ''' Generate a subnet declaration block given an IPv4 prefix string
-            for inclusion in the config file.
-        '''
-        if x.find(":") >= 0:
-            # this is an IPv6 address
-            return ""
-        else:
-            net = IPv4Prefix(x)
-            return 'echo "  network %s"' % (net)
 
 # this line is required to add the above class to the list of available services
 addservice(ServalService)
-
