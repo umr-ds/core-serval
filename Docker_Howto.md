@@ -71,6 +71,8 @@ Afterwards run the container:
 docker run -it --privileged --rm -e DISPLAY=192.168.99.1:0 nachtmaar/nicer_core_emu:latest bash
 ```
 
+Note: If you want to right-click on the nodes in the canvas, you have to click with two fingers (real click, no touch).
+
 ## (Re)building
 
 Use the command below to build the docker image by yourself. For example if you modified the `Dockerfile` or do not trust the hosted image.

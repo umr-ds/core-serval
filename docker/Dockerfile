@@ -23,7 +23,7 @@ RUN mkdir -p $WORK_DIR/.core\
 	&& git clone https://github.com/gh0st42/core-serval.git\
 	&& mv core-serval/dotcore/* $WORK_DIR/.core/\
 	&& mkdir serval-conf\
-	&& git clone SERVAL_REPO\
+	&& git clone $SERVAL_REPO\
 	&& cd serval-dna\
 	&& autoreconf -i\
 	&& ./configure --prefix=/home/meshadmin/serval-conf\
