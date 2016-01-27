@@ -10,6 +10,8 @@ Change the installation path of servald in the widgets.conf and serval.py depend
 
 For some widgets external scripts are used. These can be found here: https://github.com/gh0st42/serval-tests
 
+NOTE: Servald binary should be in your path for the services and widgets to work!
+
 ## Usage
 There are 2 new node types: one a basic pc only with servald running and one with standard olsr for mesh support.
 

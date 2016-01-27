@@ -26,7 +26,7 @@ class ServalService(CoreService):
     #_startup = ('/home/meshadmin/serval-dna/servald start',)
     _startup = ('bash mesh-start.sh',)
     # list of shutdown commands
-    _shutdown = ('/home/meshadmin/serval-dna/servald stop')
+    _shutdown = ('servald stop')
 
     @classmethod
     def generateconfig(cls, node, filename, services):
@@ -41,11 +41,11 @@ class ServalService(CoreService):
 		cfg += "interfaces.0.type=ethernet\n"
 	elif filename == "mesh-start.sh":
 		cfg ="#!/bin/sh\n"
-		cfg +="/home/meshadmin/serval-dna/servald start\n"
+		cfg +="servald start\n"
 		cfg +="sleep $[ ( $RANDOM % 10 )  + 1 ]s\n"
 		cfg +="for i in `ifconfig | grep \"inet addr:10.\" | cut -d\":\" -f 2 | cut -d\".\" -f1,2,3`\n"
 		cfg +="do\n"
-		cfg +="/home/meshadmin/serval-dna/servald scan $i.255\n"
+		cfg +="servald scan $i.255\n"
 		cfg +="done\n"
 	else:
 		cfg = ""
