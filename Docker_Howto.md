@@ -2,12 +2,22 @@
 
 ## Linux
 
-Simply run (untested):
+Simply run:
 
 ```
+# Install Docker
 sudo apt-get install docker.io
-docker run -it --privileged -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix/ nachtmaar/nicer_core_emu:latest
+# Allow the container by hostname to access X11
+xhost +local:`sudo docker inspect --format='{{ ).Config.Hostname  }}' nachtmaar/nicer_core_emu:latest`
+# Start the container
+sudo docker run -it --rm --privileged -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix nachtmaar/nicer_core_emu:latest
 ````
+
+This installs Docker and allows the Docker container to access the X11 server.
+
+Note: The host name of the Docker container is allowed to access the X11 server. This might not be the safest way, but is way better to disable X11 Access Control List at all.
+Check http://wiki.ros.org/docker/Tutorials/GUI for a better way if you really care.
+
 ## OS X
 
 ### Install XQuartz:
