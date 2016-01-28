@@ -39,6 +39,7 @@ Download and install it from: http://www.xquartz.org
 #### Install Docker
 
 ```
+brew install socat
 brew cask install Caskroom/cask/dockertoolbox
 ```
 
