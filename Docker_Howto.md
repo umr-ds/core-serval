@@ -68,7 +68,7 @@ Otherwise relogin.
 Afterwards run the container:
 
 ```
-docker run -it --privileged --rm -e DISPLAY=192.168.99.1:0 nachtmaar/nicer_core_emu:latest bash
+docker run -it --privileged --rm -e DISPLAY=192.168.99.1:0 nachtmaar/nicer_core_emu:latest
 ```
 
 Note: If you want to right-click on the nodes in the canvas, you have to click with two fingers (real click, no touch).
