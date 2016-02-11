@@ -12,7 +12,12 @@ Check out the howto in `Docker_Howto.md`.
 
 ### Manually:
 
-Copy/merge the conf files from dotcore to your ~/.core directory. Copy over the serval.py file into your myservices folder, modify the init file to load the serval file or copy the version from this repo if you haven't got any other custom services installed. Edit /etc/core/core.conf to add the local plugin directory.
+Copy/merge the conf files from dotcore to your ~/.core directory. Copy over the serval.py file into your myservices folder, modify the init file to load the serval file or copy the version from this repo if you haven't got any other custom services installed. 
+
+Edit /etc/core/core.conf to add the local plugin directory:
+```
+custom_services_dir = /home/username/.core/myservices
+```
 
 Change the installation path of servald in the widgets.conf and serval.py depending on where your servald is installed and the runtime directory. No support for instancepath at the moment. Servald was compiled with --prefix=/home/meshadmin/serval-conf
 
