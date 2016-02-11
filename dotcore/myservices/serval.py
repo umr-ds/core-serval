@@ -26,29 +26,29 @@ class ServalService(CoreService):
     #_startup = ('/home/meshadmin/serval-dna/servald start',)
     _startup = ('bash mesh-start.sh',)
     # list of shutdown commands
-    _shutdown = ('servald stop')
+    _shutdown = ('servald stop', )
 
     @classmethod
     def generateconfig(cls, node, filename, services):
         ''' Return a string that will be written to filename, or sent to the
             GUI for user customization.
         '''
-	if filename == "/home/meshadmin/serval-conf/etc/serval/serval.conf":
-	        cfg = "debug.rhizome=true\n"
-        	cfg += "debug.verbose=true\n"
-		cfg += "interfaces.0.match=eth*\n"
-		cfg += "interfaces.0.socket_type=dgram\n"
-		cfg += "interfaces.0.type=ethernet\n"
-	elif filename == "mesh-start.sh":
-		cfg ="#!/bin/sh\n"
-		cfg +="servald start\n"
-		cfg +="sleep $[ ( $RANDOM % 10 )  + 1 ]s\n"
-		cfg +="for i in `ifconfig | grep \"inet addr:10.\" | cut -d\":\" -f 2 | cut -d\".\" -f1,2,3`\n"
-		cfg +="do\n"
-		cfg +="servald scan $i.255\n"
-		cfg +="done\n"
-	else:
-		cfg = ""
+        if filename == "/home/meshadmin/serval-conf/etc/serval/serval.conf":
+            cfg = '''
+debug.rhizome=true
+debug.verbose=true
+interfaces.0.match=*
+interfaces.0.socket_type=dgram
+interfaces.0.type=ethernet'''
+        elif filename == "mesh-start.sh":
+            cfg = '''#!/bin/sh
+servald start
+sleep $[ ( $RANDOM % 10 )  + 1 ]s
+for i in `ifconfig | grep \"inet addr:10.\" | cut -d\":\" -f 2 | cut -d\".\" -f1,2,3`; do
+    servald scan $i.255
+done'''
+        else:
+            cfg = ""
         return cfg
 
 # this line is required to add the above class to the list of available services
