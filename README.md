@@ -19,8 +19,12 @@ Edit /etc/core/core.conf to add the local plugin directory:
 custom_services_dir = /home/username/.core/myservices
 ```
 
-Change the installation path of servald in the widgets.conf and serval.py depending on where your servald is installed and the runtime directory. No support for instancepath at the moment. Servald was compiled with --prefix=/home/meshadmin/serval-conf
-
+Change the installation path of servald in the widgets.conf and serval.py depending on where your servald is installed and the runtime directory. No support for instancepath at the moment. 
+Servald needs to be compiled with:
+```
+$ ./configure --prefix=/home/meshadmin/serval-conf
+$ make servald
+```
 For some widgets external scripts are used. These can be found here: https://github.com/gh0st42/serval-tests
 
 NOTE: Servald binary should be in your path for the services and widgets to work!
