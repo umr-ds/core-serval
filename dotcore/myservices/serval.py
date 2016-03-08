@@ -36,6 +36,7 @@ class ServalService(CoreService):
         if filename == "/home/meshadmin/serval-conf/etc/serval/serval.conf":
             cfg = '''
 debug.rhizome=true
+debug.meshms=true
 debug.verbose=true
 interfaces.0.match=*
 interfaces.0.socket_type=dgram
