@@ -26,7 +26,7 @@ class ServalService(CoreService):
     #_startup = ('/home/meshadmin/serval-dna/servald start',)
     _startup = ('bash mesh-start.sh',)
     # list of shutdown commands
-    _shutdown = ('servald stop', )
+    _shutdown = ()
 
     @classmethod
     def generateconfig(cls, node, filename, services):
