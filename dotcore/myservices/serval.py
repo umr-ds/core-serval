@@ -24,7 +24,7 @@ class ServalService(CoreService):
     _startindex = 50
     # list of startup commands, also may be generated during startup
     #_startup = ('/home/meshadmin/serval-dna/servald start',)
-    _startup = ('bash mesh-start.sh',)
+    _startup = ()
     # list of shutdown commands
     _shutdown = ()
 
@@ -38,9 +38,7 @@ class ServalService(CoreService):
 debug.rhizome=true
 debug.meshms=true
 debug.verbose=true
-interfaces.0.match=*
-interfaces.0.socket_type=dgram
-interfaces.0.type=ethernet'''
+interfaces.0.match=*'''
         elif filename == "mesh-start.sh":
             cfg = '''#!/bin/sh
 servald start
