@@ -11,46 +11,97 @@ import os
 from core.service import CoreService, addservice
 from core.misc.ipaddr import IPv4Prefix, IPv6Prefix
 
-class ServalService(CoreService):
+class BroadcastFixService(CoreService):
     ''' This is a sample user-defined service.
     '''
     # a unique name is required, without spaces
-    _name = "ServalService"
+    _name = "BroadcastFixService"
     # you can create your own group here
     _group = "Mesh"
     # list of other services this service depends on
-    _depends = ("BroadcastFixService", )
+    _depends = ()
     # per-node directories
-    _dirs = ("/home/meshadmin/serval-conf/etc/serval","/home/meshadmin/serval-conf/var/log", "/home/meshadmin/serval-conf/var/log/serval", "/home/meshadmin/serval-conf/var/run/serval", "/home/meshadmin/serval-conf/var/cache/serval","/home/meshadmin/serval-conf/var/cache/serval/sqlite3tmp","/home/meshadmin/serval-conf/var/cache/serval/blob")
+    _dirs = ()
     # generated files (without a full path this file goes in the node's dir,
     #  e.g. /tmp/pycore.12345/n1.conf/)
-    _configs = ('/home/meshadmin/serval-conf/etc/serval/serval.conf', "mesh-start.sh", )
+    _configs = ("bcastset.sh", "setall.sh", )
     # this controls the starting order vs other enabled services
-    _startindex = 50
+    _startindex = 10
     # list of startup commands, also may be generated during startup
     #_startup = ('/home/meshadmin/serval-dna/servald start',)
-    _startup = ('bash mesh-start.sh',)
+    #_startup = ('bash -c "for i in $(ls -1 /sys/class/net \| grep eth); do bcastset.sh $i ; done"',)
+    _startup = ('bash setall.sh',)
     # list of shutdown commands
-    _shutdown = ('/home/meshadmin/serval-dna/servald stop')
+    _shutdown = ()
 
     @classmethod
     def generateconfig(cls, node, filename, services):
         ''' Return a string that will be written to filename, or sent to the
             GUI for user customization.
         '''
-	if filename == "/home/meshadmin/serval-conf/etc/serval/serval.conf":
-	        cfg = "debug.rhizome=true\n"
-        	cfg += "debug.verbose=true\n"
-#		cfg += "debug.overlaybuffer=true\n"
-		cfg += "interfaces.0.match=eth*\n"
-		cfg += "interfaces.0.socket_type=dgram\n"
-		cfg += "interfaces.0.type=ethernet\n"
-	elif filename == "mesh-start.sh":
-		cfg ="#!/bin/sh\n"
-		cfg +="ulimit -c unlimited\n"
-		cfg +="/home/meshadmin/serval-dna/servald start\n"
-	else:
-		cfg = ""
+        if filename == "bcastset.sh":
+            cfg = """#!/bin/bash
+if [ -z $1 ]; then
+ echo "Usage: $0 <interface>"
+ echo "set the broadcast address according to netmask"
+ exit 1
+fi
+
+ip2int()
+{
+    local a b c d
+    { IFS=. read a b c d; } <<< $1
+    echo $(((((((a << 8) | b) << 8) | c) << 8) | d))
+}
+
+int2ip()
+{
+    local ui32=$1; shift
+    local ip n
+    for n in 1 2 3 4; do
+        ip=$((ui32 & 0xff))${ip:+.}$ip
+        ui32=$((ui32 >> 8))
+    done
+    echo $ip
+}
+
+netmask()
+{
+    local mask=$((0xffffffff << (32 - $1))); shift
+    int2ip $mask
+}
+
+broadcast()
+{
+    local addr=$(ip2int $1); shift
+    local mask=$((0xffffffff << (32 - $1))); shift
+    int2ip $((addr | ~mask))
+}
+
+network()
+{
+    local addr=$(ip2int $1); shift
+    local mask=$((0xffffffff << (32 -$1))); shift
+    int2ip $((addr & mask))
+}
+
+IPADDR=$(ip addr show dev $1 | grep "inet " | cut -d " " -f 6 | cut -d "/" -f 1)
+SUBNET=$(ip addr show dev $1 | grep "inet " | cut -d " " -f 6 | cut -d "/" -f 2)
+
+BCAST=$(broadcast $IPADDR $SUBNET)
+
+
+if [ -z $2 ]; then
+ ifconfig $1 broadcast $BCAST
+else
+ echo $BCAST
+fi"""
+        elif filename == "setall.sh":
+            cfg = """#!/bin/bash
+for i in $(ls -1 /sys/class/net | grep eth); do bash bcastset.sh $i ; done"""
+
+        else:
+            cfg = ""
 #        for ifc in node.netifs():
 #            cfg += 'echo "Node %s has interface %s"\n' % (node.name, ifc.name)
 #            # here we do something interesting
@@ -71,4 +122,4 @@ class ServalService(CoreService):
             return 'echo "  network %s"' % (net)
 
 # this line is required to add the above class to the list of available services
-addservice(ServalService)
+addservice(BroadcastFixService)

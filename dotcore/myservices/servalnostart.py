@@ -11,11 +11,11 @@ import os
 from core.service import CoreService, addservice
 from core.misc.ipaddr import IPv4Prefix, IPv6Prefix
 
-class ServalService(CoreService):
+class ServalNoStartService(CoreService):
     ''' This is a sample user-defined service.
     '''
     # a unique name is required, without spaces
-    _name = "ServalService"
+    _name = "ServalNoStartService"
     # you can create your own group here
     _group = "Mesh"
     # list of other services this service depends on
@@ -29,9 +29,9 @@ class ServalService(CoreService):
     _startindex = 50
     # list of startup commands, also may be generated during startup
     #_startup = ('/home/meshadmin/serval-dna/servald start',)
-    _startup = ('bash mesh-start.sh',)
+    _startup = ('',)
     # list of shutdown commands
-    _shutdown = ('/home/meshadmin/serval-dna/servald stop')
+    _shutdown = ('')
 
     @classmethod
     def generateconfig(cls, node, filename, services):
@@ -41,14 +41,13 @@ class ServalService(CoreService):
 	if filename == "/home/meshadmin/serval-conf/etc/serval/serval.conf":
 	        cfg = "debug.rhizome=true\n"
         	cfg += "debug.verbose=true\n"
-#		cfg += "debug.overlaybuffer=true\n"
 		cfg += "interfaces.0.match=eth*\n"
 		cfg += "interfaces.0.socket_type=dgram\n"
 		cfg += "interfaces.0.type=ethernet\n"
 	elif filename == "mesh-start.sh":
 		cfg ="#!/bin/sh\n"
 		cfg +="ulimit -c unlimited\n"
-		cfg +="/home/meshadmin/serval-dna/servald start\n"
+		cfg +="/home/meshadmin/serval-dna/servald start\n"		
 	else:
 		cfg = ""
 #        for ifc in node.netifs():
@@ -71,4 +70,4 @@ class ServalService(CoreService):
             return 'echo "  network %s"' % (net)
 
 # this line is required to add the above class to the list of available services
-addservice(ServalService)
+addservice(ServalNoStartService)
