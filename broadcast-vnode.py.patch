@@ -1,0 +1,8 @@
+233c233,237
+<             self.cmd([IP_BIN, "addr", "add", str(addr),
+---
+>             if ":" in str(addr):
+>                 self.cmd([IP_BIN, "addr", "add", str(addr),
+>                   "dev", self.ifname(ifindex)])
+>             else:
+>                 self.cmd([IP_BIN, "addr", "add", str(addr), "broadcast", "+",
