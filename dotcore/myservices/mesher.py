@@ -35,9 +35,14 @@ class MesherService(CoreService):
         if filename == "mesher-start.sh":
             cfg = '''#!/bin/sh
 sleep 1
-nohup mesher-experimental &> /tmp/mesher-{}.log &
+sched=/tmp/scheduler.js
+if [ -e $sched ]; then
+    nohup mesher-experimental $sched &> /tmp/mesher-{}.log &
+else
+    nohup mesher-experimental &> /tmp/mesher-{}.log &
+fi
 echo $! > mesher.pid
-'''.format(node.name)
+'''.format(node.name, node.name)
 
         if filename == "mesher-stop.sh":
             cfg = '''#!/bin/sh
