@@ -42,9 +42,9 @@ class NetmonService(CoreService):
 for i in /sys/class/net/*; do
     interface=`basename $i`
     if [ $interface = "lo" ]; then continue; fi
-    nohup python ./netmon.py $interface > /tmp/netmon-{}-$interface.log 2>&1 &
+    nohup python ./netmon.py $interface > {}/netmon-{}-$interface.log 2>&1 &
     printf "$! " >> netmon.pids
-done'''.format(node.name)
+done'''.format(node.session.sessiondir, node.name)
 
         if filename == "netmon-stop.sh":
             cfg = '''#!/bin/bash
